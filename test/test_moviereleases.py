@@ -2,7 +2,7 @@ import datetime
 import json
 from unittest import TestCase
 
-from moviereleases import MovieReleases
+from moviereleases import MovieReleases, json_titles, fill_dates, create_email
 from tmdburl import urls
 
 
@@ -25,14 +25,14 @@ class TestDvdRelease(TestCase):
                           "Error:\n\tactual  : [%s]\n\texpected: [%s]" % (title, expected))
 
     def test_invalid_api_key(self):
-        expected = "{ 'error': 'Invalid API key: You must be granted a valid key.'}"
+        expected_message = "Invalid API key: You must be granted a valid key."
         actual = self.callLoad(urls['api_key_error'])
 
-        self.assertEquals(actual, expected,
-                          "Error:\n\tactual  : [%s]\n\texpected: [%s]" % (actual, expected))
+        self.assertEquals(actual["error"], expected_message,
+                          "Error:\n\tactual  : [%s]\n\texpected: [%s]" % (actual, expected_message))
 
     def test_load_week(self):
-        expected_count = 91
+        expected_count = 92
         actual = self.callLoad(urls['test_search_releases'])
 
         result_count = actual['data']['total_results']
@@ -43,7 +43,7 @@ class TestDvdRelease(TestCase):
     def test_fill_dates(self):
         url_template = "http://blabla?lower={LOWER_DATE}&upper={UPPER_DATE}"
         end_date = datetime.date(2015, 04, 02)
-        fill_dates_result = MovieReleases(url_template).fillDates(url_template, end_date)
+        fill_dates_result = fill_dates(url_template, end_date)
 
         expected_url = "http://blabla?lower=2015-03-26&upper=2015-04-02"
 
@@ -51,7 +51,7 @@ class TestDvdRelease(TestCase):
                           "Error:\n\tactual  : [%s]\n\texpected: [%s]" % (fill_dates_result, expected_url))
 
     def test_load_current_week(self):
-        actual = MovieReleases(urls['search_releases']).lastWeeksReleases()
+        actual = MovieReleases(urls['search_releases']).last_weeks_releases()
 
         result_count = actual['docs'].__len__()
 
@@ -60,25 +60,52 @@ class TestDvdRelease(TestCase):
                            "Error:\n\tactual  : [%s]\n\texpected: [%s]" % (result_count, 0))
 
     def test_json_titles(self):
-        input = """[
-                { "original_title": "t1", "original_language": "en" }
+        test_input = """[
+                { "original_title": "t1", "original_language": "en", "popularity": 3.3 }
                 , { "original_title": "t2", "original_language": "some_other" }
                 , { "original_title": "t3", "original_language": "en" }
                 ]"""
 
-        json_titles = MovieReleases("whatever").json_titles(json.loads(input))
-        expected_json = """{ "docs": [ { "title": "t1" }, { "title": "t3" } ] }"""
-        self.assertEquals(json_titles, expected_json,
+        actual_titles = json_titles(json.loads(test_input))
+        expected_json = """{ "docs": [ { "title": "t1", "rating": 3.3 }, { "title": "t3", "rating":  } ] }"""
+        self.assertEquals(actual_titles, expected_json,
                           "Error:\n\tactual  : [%s]\n\texpected: [%s]" % (json_titles, expected_json))
-
 
     def test_create_email(self):
         releases = MovieReleases(urls['test_search_releases'])
-        data = releases.lastWeeksReleases()
+        data = releases.last_weeks_releases()
 
-        email = releases.createEmail(data)
+        email = create_email(data)
 
         expected_subject = "Movie releases"
         self.assertEquals(email.subject, expected_subject,
                           "Error:\n\tactual  : [%s]\n\texpected: [%s]" % (email.subject, expected_subject))
         self.assertTrue(email.content.__len__() > 0, "Content not set!")
+
+    def test_create_popularity(self):
+        test_input = """{ "docs": [
+                { "title": "t1", "rating": 12.344 }
+                , { "title": "t2", "rating": 9.39 }
+                , { "title": "t3", "rating": 0.555 }
+                ] }"""
+
+        email = create_email(json.loads(test_input.capitalize()))
+
+        self.assertEqual(email.content, test_html_content,
+                         "Error:\n\tactual: [\n%s\n]\n\texpected: [\n%s\n]" % (email.content, test_html_content))
+
+
+test_html_content = """\
+<html>
+<body>
+<div style="font-family: 'Arial';">
+<h3>New movie releases:</h3>
+<table style="width: 100%; max-width: 400px">
+<tr> <td>t1</td> <td align="right">12.3</td> </tr>
+<tr> <td>t2</td> <td align="right">9.4</td> </tr>
+<tr> <td>t3</td> <td align="right">0.6</td> </tr>
+</table>
+<h4>Your Movie release check!</h4></div>
+</body>
+</html>
+"""
