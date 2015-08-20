@@ -2,7 +2,7 @@
 
 ## JSON + Email - Movie release checker
 
-Checking last weeks movie releases from The Movie DB.
+Checking last weeks movie releases from https://www.themoviedb.org/.
 
 src folder: `src`
 test folder: `test`
