@@ -2,4 +2,4 @@
 
 . drc_variables.sh
 
-python src/dlcmain.py
+python src/mlcmain.py

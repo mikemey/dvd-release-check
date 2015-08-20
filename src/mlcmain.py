@@ -1,15 +1,8 @@
-import logging
-
 import mailsender
 from moviereleases import MovieReleases, create_email
-from tmdburl import urls
+from mlc_commons import urls, logger
 
 # set up logging:
-
-logging.addLevelName(logging.WARNING, "WARN")
-logging.basicConfig(format='%(asctime)s %(levelname)5s - %(message)s')
-logging.getLogger("dlc").setLevel(logging.INFO)
-logger = logging.getLogger("dlc")
 
 releases = MovieReleases(urls['search_releases'])
 data = releases.last_weeks_releases()

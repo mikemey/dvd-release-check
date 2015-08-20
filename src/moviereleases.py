@@ -1,12 +1,11 @@
 import datetime
 import json
-import logging
 
 import requests
 
-apikey = "c1b8c43af9af6b592db8570437bf2e70"
+from mlc_commons import base_path, logger
 
-logger = logging.getLogger("dlc")
+apikey = "c1b8c43af9af6b592db8570437bf2e70"
 
 
 def json_titles(results):
@@ -22,11 +21,10 @@ def json_titles(results):
         first = False
 
         title = result['original_title']
-
         pop = result['popularity'] if "popularity" in result else ""
 
-        return_val += """ { "title": "%s", "rating": %s }""" % \
-                      (title, pop)
+        return_val += """ { "title": "%s", "rating": %s }""" % (title, pop)
+
     return_val += " ] }"
     return return_val
 
@@ -41,22 +39,22 @@ def fill_dates(url_template, end_date):
 
 
 def create_email(data):
-    email_body = """<html>\n""" \
-                 """<body>\n""" \
-                 """<div style="font-family: 'Arial';">\n""" \
-                 """<h3>New movie releases:</h3>\n""" \
-                 """<table style="width: 100%; max-width: 400px">"""
+    row_template = """\n        <tr> <td class="count">{}</td> <td>{}</td> <td class="rate">{}</td> </tr>"""
 
-    for doc in data['docs']:
+    titles = ""
+    for idx, doc in enumerate(data['docs']):
         rating = round(doc['rating'], 1)
-        email_body += """\n<tr> <td>{}</td> <td align="right">{}</td> </tr>""".format(doc['title'], rating)
+        titles += row_template.format(idx + 1, doc['title'], rating)
 
-    email_body += """\n</table>\n""" \
-                  """<h4>Your Movie release check!</h4></div>\n""" \
-                  """</body>\n""" \
-                  """</html>\n"""
-
+    email_body = email_template() % titles
     return MovieReleaseMail(email_body)
+
+
+def email_template():
+    return open(base_path + "resources/mlc_mail_template.html") \
+        .read() \
+        .replace("%", "%%") \
+        .replace("{titles}", "%s")
 
 
 class MovieReleaseMail:

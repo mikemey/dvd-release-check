@@ -3,7 +3,7 @@ import json
 from unittest import TestCase
 
 from moviereleases import MovieReleases, json_titles, fill_dates, create_email
-from tmdburl import urls
+from mlc_commons import urls
 
 
 class TestDvdRelease(TestCase):
@@ -91,21 +91,16 @@ class TestDvdRelease(TestCase):
 
         email = create_email(json.loads(test_input.capitalize()))
 
-        self.assertEqual(email.content, test_html_content,
-                         "Error:\n\tactual: [\n%s\n]\n\texpected: [\n%s\n]" % (email.content, test_html_content))
+        import difflib
+
+        expected = test_email_content.splitlines(True)
+        actual = email.content.splitlines(True)
+
+        diff = difflib.unified_diff(expected, actual)
+        diff_msg = ''.join(diff)
+
+        self.assertTrue(diff_msg.__len__() == 0,
+                         "Content differs: \n%s" % diff_msg)
 
 
-test_html_content = """\
-<html>
-<body>
-<div style="font-family: 'Arial';">
-<h3>New movie releases:</h3>
-<table style="width: 100%; max-width: 400px">
-<tr> <td>t1</td> <td align="right">12.3</td> </tr>
-<tr> <td>t2</td> <td align="right">9.4</td> </tr>
-<tr> <td>t3</td> <td align="right">0.6</td> </tr>
-</table>
-<h4>Your Movie release check!</h4></div>
-</body>
-</html>
-"""
+test_email_content = open("resources/test_mail_content.html").read()

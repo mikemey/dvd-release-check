@@ -1,10 +1,9 @@
 import os
-import logging
-
 from smtplib import SMTP
+
 from email.mime.text import MIMEText
 
-logger = logging.getLogger("dlc")
+from mlc_commons import logger
 
 
 def send(email_subject, email_content):
