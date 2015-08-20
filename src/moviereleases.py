@@ -6,7 +6,7 @@ import requests
 apikey = "c1b8c43af9af6b592db8570437bf2e70"
 
 
-class DvdRelease:
+class MovieReleases:
     def __init__(self, url):
         self.url = url
 
@@ -49,22 +49,29 @@ class DvdRelease:
 
         first = True
         for result in results:
-            title = result['original_title']
-            lang = result['original_language']
-
-            if lang != "en":
+            if "en" != result['original_language']:
                 continue
 
             if not first:
                 return_val += ","
-
-            print title
-            return_val += """ { "title": "%s" }""" % title
             first = False
 
-        return_val += "] }"
+            title = result['original_title']
+            return_val += """ { "title": "%s" }""" % title
+
+        return_val += " ] }"
         return return_val
 
-class DvdReleaseMail:
-    subject = "Movie releases"
-    content = ""
+    def createEmail(self, data):
+        email_body = "New movie releases:\n"
+        for doc in data['docs']:
+            email_body += "\t- %s\n" % doc['title']
+
+        email_body += "\nYour Movie release check!"
+        return MovieReleaseMail(email_body)
+
+
+class MovieReleaseMail:
+    def __init__(self, email_content):
+        self.subject = "Movie releases"
+        self.content = email_content

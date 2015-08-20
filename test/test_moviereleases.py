@@ -1,7 +1,8 @@
 import datetime
+import json
 from unittest import TestCase
 
-from dvdrelease import DvdRelease
+from moviereleases import MovieReleases
 from tmdburl import urls
 
 
@@ -13,7 +14,7 @@ class TestDvdRelease(TestCase):
         print """--------------\nTest run: [%s - %s]""" % (test_class, test_method)
 
     def callLoad(self, url):
-        return DvdRelease(url).load()
+        return MovieReleases(url).load()
 
     def test_connection_load_movie(self):
         expected = "Fight Club"
@@ -42,7 +43,7 @@ class TestDvdRelease(TestCase):
     def test_fill_dates(self):
         url_template = "http://blabla?lower={LOWER_DATE}&upper={UPPER_DATE}"
         end_date = datetime.date(2015, 04, 02)
-        fill_dates_result = DvdRelease(url_template).fillDates(url_template, end_date)
+        fill_dates_result = MovieReleases(url_template).fillDates(url_template, end_date)
 
         expected_url = "http://blabla?lower=2015-03-26&upper=2015-04-02"
 
@@ -50,7 +51,7 @@ class TestDvdRelease(TestCase):
                           "Error:\n\tactual  : [%s]\n\texpected: [%s]" % (fill_dates_result, expected_url))
 
     def test_load_current_week(self):
-        actual = DvdRelease(urls['search_releases']).lastWeeksReleases()
+        actual = MovieReleases(urls['search_releases']).lastWeeksReleases()
 
         result_count = actual['docs'].__len__()
 
@@ -58,5 +59,26 @@ class TestDvdRelease(TestCase):
         self.assertGreater(result_count, 0,
                            "Error:\n\tactual  : [%s]\n\texpected: [%s]" % (result_count, 0))
 
+    def test_json_titles(self):
+        input = """[
+                { "original_title": "t1", "original_language": "en" }
+                , { "original_title": "t2", "original_language": "some_other" }
+                , { "original_title": "t3", "original_language": "en" }
+                ]"""
+
+        json_titles = MovieReleases("whatever").json_titles(json.loads(input))
+        expected_json = """{ "docs": [ { "title": "t1" }, { "title": "t3" } ] }"""
+        self.assertEquals(json_titles, expected_json,
+                          "Error:\n\tactual  : [%s]\n\texpected: [%s]" % (json_titles, expected_json))
+
+
     def test_create_email(self):
-        pass
+        releases = MovieReleases(urls['test_search_releases'])
+        data = releases.lastWeeksReleases()
+
+        email = releases.createEmail(data)
+
+        expected_subject = "Movie releases"
+        self.assertEquals(email.subject, expected_subject,
+                          "Error:\n\tactual  : [%s]\n\texpected: [%s]" % (email.subject, expected_subject))
+        self.assertTrue(email.content.__len__() > 0, "Content not set!")

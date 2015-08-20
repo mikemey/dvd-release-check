@@ -9,7 +9,6 @@ app.use('/info', function(req, res, next) {
 
 app.get('/info/data', function(req, res) {
   console.log('\tsending data on ' + new Date().toUTCString())
-//  console.log('\tsending data on ' + new Date().toJSON())
   res.send('{ "data": "health state", "status": 111 }')
 });
 
