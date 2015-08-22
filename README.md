@@ -5,10 +5,6 @@
 Checking last weeks movie releases from https://www.themoviedb.org/ and
 sends an email with last weeks movie releases.
 
-src folder: `src/`
-
-test folder: `test/`
-
 ### Run requirements
 Email account setting required in a shell script called `drc_variables.sh` in the root folder.
 
