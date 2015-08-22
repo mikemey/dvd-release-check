@@ -1,11 +1,12 @@
 import datetime
 import json
+import os
 
 import requests
 
 from mlc_commons import base_path, logger
 
-apikey = "c1b8c43af9af6b592db8570437bf2e70"
+api_key = os.environ['DRC_MOVIEDB_API_KEY']
 
 
 def json_titles(results):
@@ -86,7 +87,7 @@ class MovieReleases:
         return json.loads(data_json)
 
     def real_url(self):
-        return self.url.replace("{API_KEY}", apikey)
+        return self.url.replace("{API_KEY}", api_key)
 
     def last_weeks_releases(self):
         loaded = self.load()

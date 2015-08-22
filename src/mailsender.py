@@ -1,14 +1,12 @@
 import os
 from smtplib import SMTP
-
 from email.mime.text import MIMEText
 
 from mlc_commons import logger
 
 
 def send(email_subject, email_content):
-    server_set = 'DRC_SMTP_SERVER' in os.environ
-    if not server_set:
+    if 'DRC_SMTP_SERVER' not in os.environ:
         logger.error("email variables not set!")
         return 1
 
@@ -35,6 +33,5 @@ def send(email_subject, email_content):
             conn.close()
             return 0
     except Exception, exc:
-        # sys.exit( "mail failed; %s" % str(exc) ) # give a error message
         logger.info('sending failed: %s' % str(exc))
         return 1

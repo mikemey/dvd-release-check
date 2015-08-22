@@ -41,11 +41,11 @@ class TestDvdRelease(TestCase):
                           "Error:\n\tactual  : [%s]\n\texpected: [%s]" % (result_count, expected_count))
 
     def test_fill_dates(self):
-        url_template = "http://blabla?lower={LOWER_DATE}&upper={UPPER_DATE}"
+        url_template = "http://bla.bla?lower={LOWER_DATE}&upper={UPPER_DATE}"
         end_date = datetime.date(2015, 04, 02)
         fill_dates_result = fill_dates(url_template, end_date)
 
-        expected_url = "http://blabla?lower=2015-03-26&upper=2015-04-02"
+        expected_url = "http://bla.bla?lower=2015-03-26&upper=2015-04-02"
 
         self.assertEquals(fill_dates_result, expected_url,
                           "Error:\n\tactual  : [%s]\n\texpected: [%s]" % (fill_dates_result, expected_url))
@@ -99,8 +99,7 @@ class TestDvdRelease(TestCase):
         diff = difflib.unified_diff(expected, actual)
         diff_msg = ''.join(diff)
 
-        self.assertTrue(diff_msg.__len__() == 0,
-                         "Content differs: \n%s" % diff_msg)
+        self.assertTrue(diff_msg.__len__() == 0, "Content differs: \n%s" % diff_msg)
 
 
 test_email_content = open("resources/test_mail_content.html").read()
