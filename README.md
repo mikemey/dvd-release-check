@@ -10,7 +10,7 @@ Email account setting required in a shell script called `drc_variables.sh` in th
 
 `drc_variables.sh` template:
 
-```
+```shell
 #!/bin/bash
 
 export set DRC_SMTP_SERVER="your_server:port"
