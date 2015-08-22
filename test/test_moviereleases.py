@@ -32,7 +32,7 @@ class TestDvdRelease(TestCase):
                           "Error:\n\tactual  : [%s]\n\texpected: [%s]" % (actual, expected_message))
 
     def test_load_week(self):
-        expected_count = 92
+        expected_count = 192
         actual = self.callLoad(urls['test_search_releases'])
 
         result_count = actual['data']['total_results']

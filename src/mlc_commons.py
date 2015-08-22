@@ -9,8 +9,8 @@ query_template = "&language=en" \
                  "&primary_release_date.gte={LOWER_DATE}&primary_release_date.lte={UPPER_DATE}"
 
 test_query = query_template \
-    .replace("{LOWER_DATE}", "2015-08-09") \
-    .replace("{UPPER_DATE}", "2015-08-16")
+    .replace("{LOWER_DATE}", "2013-08-09") \
+    .replace("{UPPER_DATE}", "2013-08-16")
 
 sort = "&sort_by=popularity.desc"
 
