@@ -2,5 +2,7 @@
 *.iml
 node_modules
 
+*.pyc
+
 # email account details + api-key:
 drc_variables.sh
