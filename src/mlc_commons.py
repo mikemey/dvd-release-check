@@ -1,5 +1,6 @@
 import logging
 import os
+import sys
 
 prefix = "https://api.themoviedb.org/3/discover/movie"
 api = "?api_key={API_KEY}"
@@ -27,7 +28,13 @@ urls = {
 base_path = os.path.dirname(__file__) + "/"
 
 logging.addLevelName(logging.WARNING, "WARN")
-logging.basicConfig(format='%(asctime)s %(levelname)5s - %(message)s')
-logging.getLogger("dlc").setLevel(logging.INFO)
+root = logging.getLogger()
+root.setLevel(logging.INFO)
+
+ch = logging.StreamHandler(sys.stdout)
+ch.setLevel(logging.INFO)
+formatter = logging.Formatter('%(asctime)s %(levelname)5s - %(message)s')
+ch.setFormatter(formatter)
+root.addHandler(ch)
 
 logger = logging.getLogger("dlc")
