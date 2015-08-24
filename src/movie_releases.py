@@ -5,29 +5,22 @@ import os
 import requests
 
 from mlc_commons import base_path, logger
+from mlc_model import MovieItem
 
 api_key = os.environ['DRC_MOVIEDB_API_KEY']
 
 
-def json_titles(results):
-    return_val = """{ "docs": ["""
-
-    first = True
+def convert_movies(results):
+    movies = []
     for result in results:
         if "en" != result['original_language']:
             continue
 
-        if not first:
-            return_val += ","
-        first = False
-
         title = result['original_title']
-        pop = result['popularity'] if "popularity" in result else ""
+        pop = result['popularity'] if "popularity" in result else 0.0
+        movies.append(MovieItem(title, pop))
 
-        return_val += """ { "title": "%s", "rating": %s }""" % (title, pop)
-
-    return_val += " ] }"
-    return return_val
+    return movies
 
 
 def fill_dates(url_template, end_date):
@@ -37,31 +30,6 @@ def fill_dates(url_template, end_date):
     return url_template \
         .replace("{LOWER_DATE}", lower_date.strftime("%Y-%m-%d")) \
         .replace("{UPPER_DATE}", end_date.strftime("%Y-%m-%d"))
-
-
-def create_email(data):
-    row_template = """\n        <tr> <td class="count">{}</td> <td>{}</td> <td class="rate">{}</td> </tr>"""
-
-    titles = ""
-    for idx, doc in enumerate(data['docs']):
-        rating = round(doc['rating'], 1)
-        titles += row_template.format(idx + 1, doc['title'], rating)
-
-    email_body = email_template() % titles
-    return MovieReleaseMail(email_body)
-
-
-def email_template():
-    return open(base_path + "resources/mlc_mail_template.html") \
-        .read() \
-        .replace("%", "%%") \
-        .replace("{titles}", "%s")
-
-
-class MovieReleaseMail:
-    def __init__(self, email_content):
-        self.subject = "Movie releases"
-        self.content = email_content
 
 
 class MovieReleases:
@@ -94,5 +62,4 @@ class MovieReleases:
         if "error" in loaded:
             return loaded
 
-        json_str = json_titles(loaded['data']['results'])
-        return json.loads(json_str)
+        return convert_movies(loaded['data']['results'])
