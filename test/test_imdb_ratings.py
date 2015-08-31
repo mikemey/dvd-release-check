@@ -10,7 +10,7 @@ test_movie2 = MovieItem('movie2', 8.88)
 test_movie2.rating = 5.5
 
 test_movie3 = MovieItem('movie3', 4.88)
-test_movie3.rating = 3.5
+test_movie3.rating = None
 
 test_movie4 = MovieItem('movie4', 5.88)
 test_movie4.rating = 6.5

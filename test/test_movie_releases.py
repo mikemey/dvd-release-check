@@ -2,7 +2,8 @@ import datetime
 import json
 
 from logTestCase import LogTestCase
-from movie_releases import MovieReleases, convert_movies, fill_dates, MovieItem
+from mlc_model import MovieItem
+from movie_releases import MovieReleases, convert_movies, fill_dates
 from mlc_commons import urls
 
 

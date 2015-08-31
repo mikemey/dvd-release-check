@@ -1,3 +1,4 @@
+from imdb_lookup import ImdbLookup
 from imdb_ratings import ImdbRatings
 import mail_sender
 from mail_gen import MailGen
@@ -6,7 +7,7 @@ from mlc_commons import urls, logger
 
 releases = MovieReleases(urls['search_releases'])
 mail_gen = MailGen()
-enhancer = ImdbRatings(None)
+enhancer = ImdbRatings(ImdbLookup())
 
 movies = releases.last_weeks_releases()
 movies = enhancer.enhance_data(movies)

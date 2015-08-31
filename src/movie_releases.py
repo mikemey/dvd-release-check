@@ -4,7 +4,7 @@ import os
 
 import requests
 
-from mlc_commons import base_path, logger
+from mlc_commons import logger
 from mlc_model import MovieItem
 
 api_key = os.environ['DRC_MOVIEDB_API_KEY']

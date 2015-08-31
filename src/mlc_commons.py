@@ -2,10 +2,6 @@ import logging
 import os
 import sys
 
-#  base path for loading resources:
-# ---------------------------------
-base_path = os.path.dirname(__file__) + "/"
-
 # the movie db parameters:
 # ---------------------------------
 

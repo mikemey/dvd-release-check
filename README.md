@@ -21,7 +21,6 @@ export set DRC_USERNAME="your_server_username"
 export set DRC_PASSWORD="your_server_password"
 
 export set DRC_MOVIEDB_API_KEY="your_moviedb_api_key"
-export set DRC_IMDB_API_KEY="not_yet_implemented"
 ```
 
 #### Start app
