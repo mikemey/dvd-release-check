@@ -6,7 +6,7 @@ from movie_releases import MovieReleases, convert_movies, fill_dates, MovieItem
 from mlc_commons import urls
 
 
-class TestDvdRelease(LogTestCase):
+class TestMovieReleases(LogTestCase):
     def callLoad(self, url):
         return MovieReleases(url).load()
 
@@ -31,8 +31,8 @@ class TestDvdRelease(LogTestCase):
 
         result_count = actual['data']['total_results']
 
-        self.assertEquals(result_count, expected_count,
-                          "Error:\n\tactual  : [%s]\n\texpected: [%s]" % (result_count, expected_count))
+        self.assertGreater(result_count, expected_count,
+                           "Error:\n\tactual  : [%s]\n\texpected: [%s]" % (result_count, expected_count))
 
     def test_fill_dates(self):
         url_template = "http://bla.bla?lower={LOWER_DATE}&upper={UPPER_DATE}"

@@ -1,46 +1,41 @@
-import json
-
 from imdb_lookup import ImdbLookup
 from imdb_ratings import ImdbRatings
 from logTestCase import LogTestCase
+from mlc_model import MovieItem
 
+test_movie1 = MovieItem('movie1', 6.6)
+test_movie1.rating = 4.2
 
-class TestMovie:
-    def __init__(self, title, rating, pop):
-        self.title = title
-        self.rating = rating
-        self.pop = pop
+test_movie2 = MovieItem('movie2', 8.88)
+test_movie2.rating = 5.5
 
+test_movie3 = MovieItem('movie3', 4.88)
+test_movie3.rating = 3.5
 
-test_movie1 = TestMovie('movie1', 6.6, 2.2)
-test_movie2 = TestMovie('movie2', 8.88, 5.55)
+test_movie4 = MovieItem('movie4', 5.88)
+test_movie4.rating = 6.5
 
 
 class TestImdbRatings(LogTestCase):
     def test_ratings_added(self):
         ratings = ImdbRatings(LookupImdbMock())
 
-        data_str = """{"docs": [
-            {"pop": %s,
-             "title": "%s"
-             },
-            {"pop": %s,
-             "title": "%s"
-             }
-        ]}""" % (test_movie1.pop, test_movie1.title, test_movie2.pop, test_movie2.title)
+        data = self.create_movie_data()
 
-        data = json.loads(data_str)
+        enhanced_data = ratings.enhance_data(data)
 
-        new_data = ratings.enhance_data(data)
+        self.assert_movie_equals(enhanced_data[0], test_movie4)
+        self.assert_movie_equals(enhanced_data[1], test_movie2)
+        self.assert_movie_equals(enhanced_data[2], test_movie1)
+        self.assert_movie_equals(enhanced_data[3], test_movie3)
 
-        self.assert_movie_equals(new_data['docs'][0], test_movie2)
-        self.assert_movie_equals(new_data['docs'][1], test_movie1)
+    def create_movie_data(self):
+        return [test_movie1, test_movie2, test_movie3, test_movie4]
 
     def assert_movie_equals(self, data, expected):
-        self.assert_data_equals(data['title'], expected.title)
-        self.assert_data_equals(data['pop'], expected.pop)
-        self.assert_data_equals(data['rating'], expected.title)
-        pass
+        self.assert_data_equals(data.title, expected.title)
+        self.assert_data_equals(data.pop, expected.pop)
+        self.assert_data_equals(data.rating, expected.rating)
 
     def assert_data_equals(self, actual, expected):
         self.assertEqual(actual, expected, "\n\tactual  : [%s]\n\texpected: [%s]" % (actual, expected))
@@ -49,11 +44,10 @@ class TestImdbRatings(LogTestCase):
 class LookupImdbMock(ImdbLookup):
     title_movie_map = {
         test_movie1.title: test_movie1,
-        test_movie2.title: test_movie2
+        test_movie2.title: test_movie2,
+        test_movie3.title: test_movie3,
+        test_movie4.title: test_movie4
     }
-
-    def __init__(self):
-        ImdbLookup.__init__(self)
 
     def find_rating(self, movie_title):
         return self.title_movie_map[movie_title].rating

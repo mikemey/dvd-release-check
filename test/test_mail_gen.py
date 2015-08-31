@@ -7,9 +7,7 @@ from mlc_commons import urls
 
 
 class TestMailGen(LogTestCase):
-    def __init__(self):
-        super(TestMailGen, self).__init__()
-        self.mail_gen = MailGen()
+    mail_gen = MailGen()
 
     def test_create_email(self):
         releases = MovieReleases(urls['test_search_releases'])
@@ -28,6 +26,9 @@ class TestMailGen(LogTestCase):
             MovieItem("t2", 9.39),
             MovieItem("t3", 0.555)
         ]
+        input_movies[0].rating = 4.4
+        input_movies[1].rating = 5.5
+        input_movies[2].rating = 6.6
 
         email = self.mail_gen.create_email(input_movies)
 

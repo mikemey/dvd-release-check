@@ -3,4 +3,8 @@ class ImdbRatings:
         self.lookup = lookup
 
     def enhance_data(self, movie_data):
-        return movie_data
+        for movie in movie_data:
+            rating = self.lookup.find_rating(movie.title)
+            movie.rating = rating
+
+        return sorted(movie_data, key=lambda m: m.rating, reverse=True)

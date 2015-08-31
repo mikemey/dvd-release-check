@@ -63,3 +63,5 @@ ch.setFormatter(formatter)
 root.addHandler(ch)
 
 logger = logging.getLogger("dlc")
+
+logging.getLogger("requests").setLevel(logging.WARN)
