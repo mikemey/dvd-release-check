@@ -2,10 +2,10 @@ from imdb_lookup import ImdbLookup
 from imdb_ratings import ImdbRatings
 import mail_sender
 from mail_gen import MailGen
-from movie_releases import MovieReleases
-from mlc_commons import urls, logger
+from dlc_releases import DvdReleases
+from dlc_commons import urls, logger
 
-releases = MovieReleases(urls['search_releases'])
+releases = DvdReleases(urls['search_releases'])
 mail_gen = MailGen()
 enhancer = ImdbRatings(ImdbLookup())
 

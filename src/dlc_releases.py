@@ -4,20 +4,17 @@ import os
 
 import requests
 
-from mlc_commons import logger
-from mlc_model import MovieItem
+from dlc_commons import logger
+from dlc_model import MovieItem
 
-api_key = os.environ['DRC_MOVIEDB_API_KEY']
+api_key = os.environ['DRC_TIMES_API_KEY']
 
 
 def convert_movies(results):
     movies = []
     for result in results:
-        if "en" != result['original_language']:
-            continue
-
-        title = result['original_title']
-        pop = result['popularity'] if "popularity" in result else 0.0
+        title = result['display_title']
+        pop = result['popularity'] if "popularity" in result else None
         movies.append(MovieItem(title, pop))
 
     return movies
@@ -32,7 +29,7 @@ def fill_dates(url_template, end_date):
         .replace("{UPPER_DATE}", end_date.strftime("%Y-%m-%d"))
 
 
-class MovieReleases:
+class DvdReleases:
     def __init__(self, url):
         self.url = url
 
@@ -44,15 +41,14 @@ class MovieReleases:
         resp = requests.get(search_url)
 
         if resp.status_code != 200:
-            json_body = resp.json()
-            message = json_body['status_message']
+            message = "Response was: %s %s" % (resp.status_code, resp.reason)
             logger.info("loading data failed: [%s]" % message)
-            data_json = """{ "error": "%s" }""" % message
+            json_response = json.loads("""{ "error": "%s" }""" % message)
         else:
-            logger.info("data loaded.")
-            data_json = """{ "data": %s }""" % resp.content
+            json_response = json.loads(resp.content)
+            logger.info("data loaded. results count: [%s]" % len(json_response['results']))
 
-        return json.loads(data_json)
+        return json_response
 
     def real_url(self):
         return self.url.replace("{API_KEY}", api_key)
@@ -62,4 +58,4 @@ class MovieReleases:
         if "error" in loaded:
             return loaded
 
-        return convert_movies(loaded['data']['results'])
+        return convert_movies(loaded['results'])

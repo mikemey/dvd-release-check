@@ -2,7 +2,7 @@ import difflib
 
 from logTestCase import LogTestCase
 from mail_gen import MailGen
-from mlc_model import MovieItem
+from dlc_model import MovieItem
 
 
 class TestMailGen(LogTestCase):
@@ -10,13 +10,10 @@ class TestMailGen(LogTestCase):
 
     def test_create_popularity(self):
         input_movies = [
-            MovieItem("t1", 12.344),
+            MovieItem("t1", 12.344, 4.4),
             MovieItem("t2", 9.39),
-            MovieItem("t3", 0.555)
+            MovieItem("t3", None, 6.6)
         ]
-        input_movies[0].rating = 4.4
-        input_movies[1].rating = None
-        input_movies[2].rating = 6.6
 
         email = self.mail_gen.create_email(input_movies)
 

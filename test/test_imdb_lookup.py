@@ -7,10 +7,10 @@ class TestImdbRatings(LogTestCase):
         expected = 9.2
         actual = ImdbLookup().find_rating("The Godfather")
 
-        self.assertEqual(actual, expected, "\n\tactual  : [%s]\n\texpected: [%s]" % (actual, expected))
+        self.quickEquals(actual, expected)
 
     def test_no_imdb_rating(self):
         expected = None
         actual = ImdbLookup().find_rating("Farhope Tower")
 
-        self.assertEqual(actual, expected, "\n\tactual  : [%s]\n\texpected: [%s]" % (actual, expected))
+        self.quickEquals(actual, expected)

@@ -1,19 +1,12 @@
 from imdb_lookup import ImdbLookup
 from imdb_ratings import ImdbRatings
 from logTestCase import LogTestCase
-from mlc_model import MovieItem
+from dlc_model import MovieItem
 
-test_movie1 = MovieItem('movie1', 6.6)
-test_movie1.rating = 4.2
-
-test_movie2 = MovieItem('movie2', 8.88)
-test_movie2.rating = 5.5
-
-test_movie3 = MovieItem('movie3', 4.88)
-test_movie3.rating = None
-
-test_movie4 = MovieItem('movie4', 5.88)
-test_movie4.rating = 6.5
+test_movie1 = MovieItem('movie1', 6.6, 4.2)
+test_movie2 = MovieItem('movie2', 8.88, 5.5)
+test_movie3 = MovieItem('movie3', None, None)
+test_movie4 = MovieItem('movie4', 5.88, 6.5)
 
 
 class TestImdbRatings(LogTestCase):
@@ -38,7 +31,7 @@ class TestImdbRatings(LogTestCase):
         self.assert_data_equals(data.rating, expected.rating)
 
     def assert_data_equals(self, actual, expected):
-        self.assertEqual(actual, expected, "\n\tactual  : [%s]\n\texpected: [%s]" % (actual, expected))
+        self.quickEquals(actual, expected)
 
 
 class LookupImdbMock(ImdbLookup):

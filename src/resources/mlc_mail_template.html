@@ -14,16 +14,15 @@
         text-align: right;
         padding-right: 7px;
         }
-
-        td.pop {
-        text-align: right;
-        }
     </style>
 </head>
 <body>
 <div>
     <h3>New movie releases:</h3>
-    <table>{titles}
+    <table>
+        <thead><tr><th>imdb</th><th>Title</th></tr></thead>
+        <tbody>{titles}
+        </tbody>
     </table>
     <h4>Your Movie release check!</h4></div>
 </body>

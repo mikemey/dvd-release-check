@@ -2,7 +2,7 @@
 
 ## JSON + Email - Movie release checker
 
-Checks last weeks movie releases from https://www.themoviedb.org/ and
+Checks dvd releases from [http://api.nytimes.com](http://api.nytimes.com) and
 sends an email with the results.
 
 ### Run requirements
@@ -20,7 +20,7 @@ export set DRC_DESTINATION="your_destination_email_address"
 export set DRC_USERNAME="your_server_username"
 export set DRC_PASSWORD="your_server_password"
 
-export set DRC_MOVIEDB_API_KEY="your_moviedb_api_key"
+export set DRC_TIMES_API_KEY="your_ny_times_api_key"
 ```
 
 #### Start app
@@ -30,7 +30,7 @@ No further parameters required.
 
 
 ### Test requirements
-Tests also need to be executed with at least the environment variable `DRC_MOVIEDB_API_KEY` set to a real API key.
+Tests also need to be executed with at least the environment variable `DRC_TIMES_API_KEY` set to a real API key.
 
 
 # Node + Express server
