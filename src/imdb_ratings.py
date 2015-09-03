@@ -23,5 +23,5 @@ class ImdbRatings:
             report(ix, len(movie_data))
             rating = self.lookup.find_rating(movie.title)
             movie.rating = rating
-
+        print
         return sorted(movie_data, key=lambda m: m.rating, reverse=True)
