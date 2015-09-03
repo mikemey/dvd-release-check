@@ -4,13 +4,15 @@ from logTestCase import LogTestCase
 
 class TestImdbRatings(LogTestCase):
     def test_imdb_rating(self):
-        expected = 9.2
-        actual = ImdbLookup().find_rating("The Godfather")
+        expected_rating = 9.2
+        expected_genres = ['Crime', 'Drama']
+        actual = ImdbLookup().find_movie_data("The Godfather")
 
-        self.quickEquals(actual, expected)
+        self.quickEquals(actual.rating, expected_rating)
+        self.quickEquals(actual.genres, expected_genres)
 
     def test_no_imdb_rating(self):
         expected = None
-        actual = ImdbLookup().find_rating("Farhope Tower")
+        actual = ImdbLookup().find_movie_data("Farhope Tower")
 
-        self.quickEquals(actual, expected)
+        self.quickEquals(actual.rating, expected)

@@ -2,8 +2,8 @@
 
 ## JSON + Email - Movie release checker
 
-Checks dvd releases from [http://api.nytimes.com](http://api.nytimes.com) and
-sends an email with the results.
+Checks dvd releases from [http://api.nytimes.com](http://api.nytimes.com), adds data fetched with
+[http://imdbpy.sourceforge.net](http://imdbpy.sourceforge.net) and sends an email with the results.
 
 ### Run requirements
 Email account setting required in a shell script called `drc_variables.sh` in the root folder.

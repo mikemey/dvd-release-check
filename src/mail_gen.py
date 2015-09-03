@@ -12,16 +12,26 @@ def load_email_template():
         .replace("{titles}", "%s")
 
 
+def get_or_else(movie, key, default, function_or_none=None):
+    attr = getattr(movie, key, None)
+    if attr:
+        if function_or_none:
+            return function_or_none(attr)
+        return attr
+    return default
+
+
 class MailGen:
     def __init__(self):
         self.email_template = load_email_template()
-        self.row_template = """\n<tr> <td class="rating">{}</td> <td>{}</td> </tr>"""
+        self.row_template = """\n<tr> <td class="rating">{}</td> <td>{}</td> <td class="genres">{}</td> </tr>"""
 
     def create_email(self, movies):
         titles = ""
         for movie in movies:
-            rating = movie.rating or "n/a"
-            titles += self.row_template.format(rating, movie.title)
+            rating = get_or_else(movie, "rating", "n/a")
+            genres = get_or_else(movie, "genres", "", lambda x: " ".join(x))
+            titles += self.row_template.format(rating, movie.title, genres)
 
         email_body = self.email_template % titles
         return MovieReleaseMail(email_body)

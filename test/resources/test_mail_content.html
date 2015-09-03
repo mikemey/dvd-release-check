@@ -2,17 +2,29 @@
 <head>
     <style>
         body {
-        font-family: "Arial";
+            font-family: "Arial";
         }
 
         table {
-        width: 100%;
-        max-width: 400px;
+            width: 100%;
+            max-width: 400px;
+            border-collapse: collapse;
+            border: 1px solid #C0C0C0;
+        }
+
+        td, th {
+            border: 1px solid #C0C0C0;
+            padding: 2px 6px;
         }
 
         td.rating {
-        text-align: right;
-        padding-right: 7px;
+            text-align: right;
+            padding-right: 7px;
+        }
+
+        td.genres {
+            text-align: right;
+            width: 1px;
         }
     </style>
 </head>
@@ -20,11 +32,11 @@
 <div>
     <h3>New movie releases:</h3>
     <table>
-        <thead><tr><th>imdb</th><th>Title</th></tr></thead>
+        <thead><tr><th>Imdb</th><th>Title</th><th>Genres</th></tr></thead>
         <tbody>
-<tr> <td class="rating">4.4</td> <td>t1</td> </tr>
-<tr> <td class="rating">n/a</td> <td>t2</td> </tr>
-<tr> <td class="rating">6.6</td> <td>t3</td> </tr>
+<tr> <td class="rating">4.4</td> <td>t1</td> <td class="genres"></td> </tr>
+<tr> <td class="rating">n/a</td> <td>t2</td> <td class="genres"></td> </tr>
+<tr> <td class="rating">n/a</td> <td>t3</td> <td class="genres">Crime Drama</td> </tr>
         </tbody>
     </table>
     <h4>Your Movie release check!</h4></div>
