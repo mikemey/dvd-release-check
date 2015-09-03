@@ -1,7 +1,7 @@
 from imdb_lookup import ImdbLookup
 from imdb_ratings import ImdbRatings
 from logTestCase import LogTestCase
-from dlc_model import MovieItem
+from drc_model import MovieItem
 
 test_movie1 = MovieItem('movie1', 6.6, 4.2)
 test_movie2 = MovieItem('movie2', 8.88, 5.5)

@@ -2,9 +2,9 @@ import datetime
 import json
 
 from logTestCase import LogTestCase
-from dlc_model import MovieItem
-from dlc_releases import DvdReleases, convert_movies, fill_dates
-from dlc_commons import urls
+from drc_model import MovieItem
+from drc_releases import DvdReleases, convert_movies, fill_dates
+from drc_commons import urls
 
 
 class TestMovieReleases(LogTestCase):

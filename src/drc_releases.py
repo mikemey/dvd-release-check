@@ -4,8 +4,8 @@ import os
 
 import requests
 
-from dlc_commons import logger
-from dlc_model import MovieItem
+from drc_commons import logger
+from drc_model import MovieItem
 
 api_key = os.environ['DRC_TIMES_API_KEY']
 

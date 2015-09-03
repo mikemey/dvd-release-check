@@ -2,8 +2,8 @@ from imdb_lookup import ImdbLookup
 from imdb_ratings import ImdbRatings
 import mail_sender
 from mail_gen import MailGen
-from dlc_releases import DvdReleases
-from dlc_commons import urls, logger
+from drc_releases import DvdReleases
+from drc_commons import urls, logger
 
 releases = DvdReleases(urls['search_releases'])
 mail_gen = MailGen()

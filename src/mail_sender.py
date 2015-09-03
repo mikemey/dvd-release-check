@@ -2,7 +2,7 @@ import os
 from smtplib import SMTP
 from email.mime.text import MIMEText
 
-from dlc_commons import logger
+from drc_commons import logger
 
 
 def send(email_subject, email_content):

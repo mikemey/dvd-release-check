@@ -2,7 +2,7 @@ import difflib
 
 from logTestCase import LogTestCase
 from mail_gen import MailGen
-from dlc_model import MovieItem
+from drc_model import MovieItem
 
 
 class TestMailGen(LogTestCase):

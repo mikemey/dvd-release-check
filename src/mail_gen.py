@@ -1,12 +1,12 @@
 import os
 
-from dlc_model import MovieReleaseMail
+from drc_model import MovieReleaseMail
 
 base_path = os.path.dirname(__file__) + "/"
 
 
 def load_email_template():
-    return open(base_path + "resources/mlc_mail_template.html") \
+    return open(base_path + "resources/drc_mail_template.html") \
         .read() \
         .replace("%", "%%") \
         .replace("{titles}", "%s")
