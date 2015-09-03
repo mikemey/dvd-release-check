@@ -31,10 +31,3 @@ No further parameters required.
 
 ### Test requirements
 Tests also need to be executed with at least the environment variable `DRC_TIMES_API_KEY` set to a real API key.
-
-
-# Node + Express server
-
-src folder: `app`
-
-Express server to serve simple json data.
