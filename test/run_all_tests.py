@@ -1,7 +1,7 @@
 import unittest
 
 test_modules = [
-    'test_dlc_releases',
+    'test_drc_releases',
     'test_imdb_lookup',
     'test_imdb_ratings',
     'test_mail_gen'

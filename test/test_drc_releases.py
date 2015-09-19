@@ -38,7 +38,7 @@ class TestMovieReleases(LogTestCase):
 
         result_count = actual['num_results']
 
-        self.quickEquals(result_count, expected_count)
+        self.assertGreater(result_count, expected_count)
 
     def test_fill_dates(self):
         url_template = "http://bla.bla?date={LOWER_DATE};{UPPER_DATE}"
