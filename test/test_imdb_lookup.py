@@ -10,9 +10,3 @@ class TestImdbRatings(LogTestCase):
 
         self.quickEquals(actual.rating, expected_rating)
         self.quickEquals(actual.genres, expected_genres)
-
-    def test_no_imdb_rating(self):
-        expected = None
-        actual = ImdbLookup().find_movie_data("Farhope Tower")
-
-        self.quickEquals(actual.rating, expected)
