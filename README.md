@@ -1,12 +1,10 @@
-# Python playground
-
-## JSON + Email - Movie release checker
+# DVD release check
 
 Checks dvd releases from [http://api.nytimes.com](http://api.nytimes.com), adds data fetched with
 [http://imdbpy.sourceforge.net](http://imdbpy.sourceforge.net) and sends an email with the results.
 
 ### Run requirements
-Email account setting required in a shell script called `drc_variables.sh` in the root folder.
+Email account required, configuration is set in a shell script called `drc_variables.sh` in the root folder.
 
 `drc_variables.sh` template:
 
@@ -25,7 +23,7 @@ export set DRC_TIMES_API_KEY="your_ny_times_api_key"
 
 #### Start app
 
-Execute script `run_movie_release_check.sh` which requires the file `drc_variables.sh` to be created.
+Execute script `run_dvd_release_check.sh` which requires the file `drc_variables.sh` to be created.
 No further parameters required.
 
 
